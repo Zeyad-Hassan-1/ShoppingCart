@@ -1,5 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, Component} from 'react';
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
+import ReactDOM from 'react-dom';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import {Carousel} from 'react-responsive-carousel';
 import {BsCart} from "react-icons/bs";
 import './index.css';
 
@@ -22,7 +25,7 @@ function App() {
 
     return (
         <Router>
-            <div className="bg-amber-100 min-h-screen">
+            <div className="bg-amber-50 min-h-screen">
                 <Navbar count={count}/>
                 <Routes>
                     <Route path="/" element={<Home addToCart={addToCart} data={data}/>}/>
@@ -33,9 +36,10 @@ function App() {
     );
 }
 
-function Navbar({ count }) {
+function Navbar({count}) {
     return (
-        <div className="navbar glass shadow-xl mb-4 sticky z-10 top-0 text-black flex flex-col md:flex-row md:justify-between">
+        <div
+            className="navbar glass shadow-xl mb-4 sticky z-10 top-0 text-black flex flex-col md:flex-row md:justify-between">
             <div className="flex justify-between w-full md:w-auto">
                 <Link to="/" className="btn btn-ghost text-xl">shoppingCart</Link>
                 <div className="md:hidden flex items-center">
@@ -84,12 +88,32 @@ function Home({addToCart, data}) {
     }
 
     return (
-        <div className="grid w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {data.map((item, index) => (
-                <Card key={index} addToCart={addToCart} title={data[index].title} image={data[index].image}
-                      description={data[index].description} price={data[index].price}/>
-            ))}
-        </div>
+        <>
+            <Carousel className="w-4/5 m-auto" autoPlay={true} infiniteLoop={true}>
+                <div>
+                    <img
+                        src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt=""
+                    />
+                </div>
+                <div>
+                    <img
+                        src="https://images.unsplash.com/photo-1607082349566-187342175e2f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt=""/>
+                </div>
+                <div>
+                    <img
+                        src="https://images.unsplash.com/photo-1487744480471-9ca1bca6fb7d?q=80&w=1791&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt=''/>
+                </div>
+            </Carousel>
+            <div className="grid w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {data.map((item, index) => (
+                    <Card key={index} addToCart={addToCart} title={data[index].title} image={data[index].image}
+                          description={data[index].description} price={data[index].price}/>
+                ))}
+            </div>
+        </>
     );
 }
 
@@ -158,7 +182,7 @@ function Card({addToCart, title, image, description, price}) {
                         onClick={() => {
                             addToCart(number, title, image, description, price)
                         }}
-                        className="btn btn-primary bg-amber-100 border-green-400"
+                        className="btn btn-primary bg-amber-50 border-green-400"
                     >
                         Add to Cart <BsCart/>
                     </button>
